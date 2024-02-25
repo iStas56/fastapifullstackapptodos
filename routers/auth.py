@@ -98,7 +98,7 @@ async def get_current_user(request: Request):
             await logout(request)
         return {"username": username, "id": user_id}
     except JWTError:
-        raise HTTPException(status_code=404, detail="Not Found")
+        return 'token_expired'
 
 
 @router.post("/token")

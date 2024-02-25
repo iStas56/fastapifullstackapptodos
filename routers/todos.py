@@ -35,6 +35,12 @@ def get_db():
 async def read_all_by_user(request: Request, db: Session = Depends(get_db)):
 
     user = await get_current_user(request)
+
+    if user == 'token_expired':
+        response = RedirectResponse(url="/auth", status_code=status.HTTP_302_FOUND)
+        response.delete_cookie("access_token")
+        return response
+
     if user is None:
         return RedirectResponse(url="/auth", status_code=status.HTTP_302_FOUND)
     todos = db.query(models.Todos).filter(models.Todos.owner_id == user.get('id')).all()
