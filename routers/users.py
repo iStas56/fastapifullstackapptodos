@@ -4,20 +4,14 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from starlette.responses import RedirectResponse
 
-from TodoApp.routers.auth import get_current_user, get_password_hash, verify_password
+from .auth import get_current_user, get_password_hash, verify_password
 
 sys.path.append("..")
 
-from fastapi import Depends, HTTPException, status, APIRouter, Request, Response, Form
-from pydantic import BaseModel
-from typing import Optional
+from fastapi import Depends, status, APIRouter, Request, Form
 import models
-from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine
-from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
-from datetime import datetime, timedelta
-from jose import jwt, JWTError
 
 templates = Jinja2Templates(directory='templates')
 
